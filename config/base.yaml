@@ -8,3 +8,8 @@ paths:
   logs_dir: outputs/logs
   plots_dir: outputs/plots
   reports_dir: outputs/reports
+
+# Normalization parameters computed from train split in Phase 1
+data:
+  mean: [0.61487, 0.40708, 0.36792]
+  std: [0.27496, 0.22390, 0.22929]

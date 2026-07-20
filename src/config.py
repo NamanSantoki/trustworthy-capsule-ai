@@ -27,6 +27,8 @@ class ModelSection(BaseModel):
 class TrainingSection(BaseModel):
     epochs: int = 20
     batch_size: int = 32
+    num_workers: int = 4
+    img_size: int = 224
     learning_rate: float = 0.001
     weight_decay: float = 0.0001
     mixed_precision: bool = True
@@ -39,6 +41,23 @@ class DeploymentSection(BaseModel):
     port: int = 8000
     model_checkpoint: str = "outputs/checkpoints/best_model.pth"
 
+class DataSection(BaseModel):
+    mean: list[float] = Field(default_factory=lambda: [0.61487, 0.40708, 0.36792])
+    std: list[float] = Field(default_factory=lambda: [0.27496, 0.22390, 0.22929])
+
+class AugmentationsConfig(BaseModel):
+    horizontal_flip: bool = True
+    vertical_flip: bool = True
+    rotation_degrees: float = 15.0
+    brightness: float = 0.1
+    contrast: float = 0.1
+    saturation: float = 0.1
+    hue: float = 0.05
+
+class DataPipelineSection(BaseModel):
+    seed: int = 42
+    augmentations: AugmentationsConfig = Field(default_factory=AugmentationsConfig)
+
 class AppConfig(BaseModel):
     project_name: str = "Trustworthy-Capsule-AI"
     seed: int = 42
@@ -48,6 +67,8 @@ class AppConfig(BaseModel):
     model: ModelSection = Field(default_factory=ModelSection)
     training: TrainingSection = Field(default_factory=TrainingSection)
     deployment: DeploymentSection = Field(default_factory=DeploymentSection)
+    data: DataSection = Field(default_factory=DataSection)
+    data_pipeline: DataPipelineSection = Field(default_factory=DataPipelineSection)
 
 def load_config(config_dir: str = "config") -> AppConfig:
     """Loads split configuration YAML files and merges them into a single validated AppConfig."""
