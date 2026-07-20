@@ -1,0 +1,9 @@
+training:
+  epochs: 20
+  batch_size: 32
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  mixed_precision: true
+  early_stopping_patience: 5
+  checkpoint_metric: val_loss
+  tensorboard: true

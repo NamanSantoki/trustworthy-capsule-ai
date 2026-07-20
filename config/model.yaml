@@ -1,0 +1,6 @@
+model:
+  name: efficientnet_v2_s
+  pretrained: true
+  num_classes: 4
+  img_size: 224
+  dropout_rate: 0.2
