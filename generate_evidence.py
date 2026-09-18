@@ -1,6 +1,6 @@
-"""generate_review_iii_evidence.py
+"""generate_evidence.py
 
-Master evidence generation script for Review III PPT.
+Master evidence generation script for Model Benchmark & Evaluation.
 Extracts existing logs, evaluates checkpoints on Kvasir test set,
 generates publication-ready plots, Grad-CAM, MC Dropout uncertainty,
 calibration reliability diagrams, faithfulness curves, and comparison tables.
@@ -108,16 +108,16 @@ MODELS_CONFIG = [
 
 def ensure_dirs():
     dirs = [
-        "review_iii_assets/training",
-        "review_iii_assets/confusion_matrices",
-        "review_iii_assets/classification_reports",
-        "review_iii_assets/gradcam",
-        "review_iii_assets/calibration",
-        "review_iii_assets/faithfulness",
-        "review_iii_assets/uncertainty",
-        "review_iii_assets/comparison",
-        "review_iii_assets/single_image",
-        "outputs_kvasir/hybrid_class_aware/plots/gradcam_review_iii",
+        "benchmark_assets/training",
+        "benchmark_assets/confusion_matrices",
+        "benchmark_assets/classification_reports",
+        "benchmark_assets/gradcam",
+        "benchmark_assets/calibration",
+        "benchmark_assets/faithfulness",
+        "benchmark_assets/uncertainty",
+        "benchmark_assets/comparison",
+        "benchmark_assets/single_image",
+        "outputs_kvasir/hybrid_class_aware/plots/gradcam_benchmark",
     ]
     for d in dirs:
         os.makedirs(d, exist_ok=True)
@@ -163,7 +163,7 @@ def step_1_generate_training_plots():
         plt.grid(True, linestyle='--', alpha=0.6)
         plt.legend(frameon=True, facecolor='white', framealpha=0.9, fontsize=10)
         plt.tight_layout()
-        out_p1 = f"review_iii_assets/training/{var}_loss.png"
+        out_p1 = f"benchmark_assets/training/{var}_loss.png"
         plt.savefig(out_p1)
         plt.close()
         
@@ -179,7 +179,7 @@ def step_1_generate_training_plots():
         plt.grid(True, linestyle='--', alpha=0.6)
         plt.legend(frameon=True, facecolor='white', framealpha=0.9, fontsize=10)
         plt.tight_layout()
-        out_p2 = f"review_iii_assets/training/{var}_accuracy.png"
+        out_p2 = f"benchmark_assets/training/{var}_accuracy.png"
         plt.savefig(out_p2)
         plt.close()
 
@@ -194,7 +194,7 @@ def step_1_generate_training_plots():
         plt.grid(True, linestyle='--', alpha=0.6)
         plt.legend(frameon=True, facecolor='white', framealpha=0.9, fontsize=10)
         plt.tight_layout()
-        out_p3 = f"review_iii_assets/training/{var}_macro_f1.png"
+        out_p3 = f"benchmark_assets/training/{var}_macro_f1.png"
         plt.savefig(out_p3)
         plt.close()
         
@@ -236,7 +236,7 @@ def step_1_generate_training_plots():
 
         plt.suptitle(f'Comprehensive Training Dynamics — {m["name"]}', fontsize=16, fontweight='bold', y=0.98)
         plt.tight_layout()
-        out_p4 = f"review_iii_assets/training/{var}_dashboard.png"
+        out_p4 = f"benchmark_assets/training/{var}_dashboard.png"
         plt.savefig(out_p4)
         plt.close()
         
@@ -257,7 +257,7 @@ def step_1_generate_training_plots():
     plt.grid(True, linestyle='--', alpha=0.6)
     plt.legend(frameon=True, facecolor='white', framealpha=0.9, fontsize=10)
     plt.tight_layout()
-    plt.savefig("review_iii_assets/training/all_models_val_macro_f1_comparison.png")
+    plt.savefig("benchmark_assets/training/all_models_val_macro_f1_comparison.png")
     plt.close()
 
     plt.figure(figsize=(10, 6))
@@ -274,7 +274,7 @@ def step_1_generate_training_plots():
     plt.grid(True, linestyle='--', alpha=0.6)
     plt.legend(frameon=True, facecolor='white', framealpha=0.9, fontsize=10)
     plt.tight_layout()
-    plt.savefig("review_iii_assets/training/all_models_val_loss_comparison.png")
+    plt.savefig("benchmark_assets/training/all_models_val_loss_comparison.png")
     plt.close()
 
     print("[+] Generated multi-model comparison training plots!")
@@ -389,14 +389,14 @@ def step_2_evaluate_test_set_and_generate_metrics():
             cls_rep_text = classification_report(y_true, y_pred, target_names=CLASS_NAMES_8, digits=4, zero_division=0)
             
             # Save classification reports
-            with open(f"review_iii_assets/classification_reports/{var}_report.json", "w") as f:
+            with open(f"benchmark_assets/classification_reports/{var}_report.json", "w") as f:
                 json.dump(cls_rep_dict, f, indent=2)
-            with open(f"review_iii_assets/classification_reports/{var}_report.txt", "w") as f:
+            with open(f"benchmark_assets/classification_reports/{var}_report.txt", "w") as f:
                 f.write(f"Classification Report for {name} ({var})\n")
                 f.write("="*70 + "\n")
                 f.write(cls_rep_text + "\n")
             df_rep = pd.DataFrame(cls_rep_dict).transpose()
-            df_rep.to_csv(f"review_iii_assets/classification_reports/{var}_report.csv")
+            df_rep.to_csv(f"benchmark_assets/classification_reports/{var}_report.csv")
             
             # Confusion matrix
             cm = confusion_matrix(y_true, y_pred)
@@ -411,7 +411,7 @@ def step_2_evaluate_test_set_and_generate_metrics():
             plt.xticks(rotation=45, ha='right', fontsize=9)
             plt.yticks(rotation=0, fontsize=9)
             plt.tight_layout()
-            plt.savefig(f"review_iii_assets/confusion_matrices/{var}_confusion_matrix.png")
+            plt.savefig(f"benchmark_assets/confusion_matrices/{var}_confusion_matrix.png")
             plt.close()
             
             # Plot normalized CM
@@ -423,14 +423,14 @@ def step_2_evaluate_test_set_and_generate_metrics():
             plt.xticks(rotation=45, ha='right', fontsize=9)
             plt.yticks(rotation=0, fontsize=9)
             plt.tight_layout()
-            plt.savefig(f"review_iii_assets/confusion_matrices/{var}_confusion_matrix_normalized.png")
+            plt.savefig(f"benchmark_assets/confusion_matrices/{var}_confusion_matrix_normalized.png")
             plt.close()
             
             # Reliability Diagram
             rel_data = compute_reliability_data(y_true, y_conf, y_pred, n_bins=10)
             plot_reliability_diagram(
                 reliability_data=rel_data,
-                save_path=f"review_iii_assets/calibration/{var}_reliability_diagram.png",
+                save_path=f"benchmark_assets/calibration/{var}_reliability_diagram.png",
                 title=f"Calibration Reliability Diagram — {name}\nECE = {ece:.4f} | Brier = {brier:.4f}"
             )
             
@@ -492,9 +492,9 @@ def step_3_model_comparison(results):
     df = pd.DataFrame(results)
     
     # Save CSV files
-    df.to_csv("review_iii_model_comparison.csv", index=False)
-    df.to_csv("review_iii_assets/comparison/review_iii_model_comparison.csv", index=False)
-    print("[+] Saved review_iii_model_comparison.csv")
+    df.to_csv("model_comparison.csv", index=False)
+    df.to_csv("benchmark_assets/comparison/model_comparison.csv", index=False)
+    print("[+] Saved model_comparison.csv")
     
     # Render presentation-ready table PNG
     display_cols = [
@@ -529,10 +529,10 @@ def step_3_model_comparison(results):
         else:
             cell.set_facecolor('#f9f9f9' if row % 2 == 0 else 'white')
             
-    plt.title('Review III Comprehensive Model Benchmark (Kvasir Dataset — 37,737 Images)', fontsize=14, fontweight='bold', pad=15)
+    plt.title('Comprehensive Model Benchmark (Kvasir Dataset — 37,737 Images)', fontsize=14, fontweight='bold', pad=15)
     plt.tight_layout()
-    plt.savefig("review_iii_model_comparison.png", bbox_inches='tight')
-    plt.savefig("review_iii_assets/comparison/review_iii_model_comparison.png", bbox_inches='tight')
+    plt.savefig("model_comparison.png", bbox_inches='tight')
+    plt.savefig("benchmark_assets/comparison/model_comparison.png", bbox_inches='tight')
     plt.close()
     
     # Filter numeric models for test bar charts
@@ -561,7 +561,7 @@ def step_3_model_comparison(results):
         plt.grid(axis='y', linestyle='--', alpha=0.5)
         plt.legend(frameon=True, facecolor='white', framealpha=0.9, fontsize=10)
         plt.tight_layout()
-        plt.savefig("review_iii_assets/comparison/benchmark_bar_chart.png")
+        plt.savefig("benchmark_assets/comparison/benchmark_bar_chart.png")
         plt.close()
         
         # Calibration & Error comparison
@@ -587,7 +587,7 @@ def step_3_model_comparison(results):
         
         plt.suptitle('Calibration & Probability Quality Comparison', fontsize=14, fontweight='bold')
         plt.tight_layout()
-        plt.savefig("review_iii_assets/comparison/calibration_comparison.png")
+        plt.savefig("benchmark_assets/comparison/calibration_comparison.png")
         plt.close()
     
     print("[+] Model comparison artifacts created successfully!")
@@ -632,8 +632,8 @@ def step_4_gradcam_evidence():
         img_p = images[0] # Pick representative test image
         
         cname_clean = cname.lower().replace(" ", "_")
-        out_dir_local = "review_iii_assets/gradcam"
-        out_dir_kvasir = "outputs_kvasir/hybrid_class_aware/plots/gradcam_review_iii"
+        out_dir_local = "benchmark_assets/gradcam"
+        out_dir_kvasir = "outputs_kvasir/hybrid_class_aware/plots/gradcam_benchmark"
         
         result = pipeline.explain_image(
             image_path=img_p,
@@ -676,7 +676,7 @@ def step_4_gradcam_evidence():
             
         plt.suptitle(f"Explainability Evidence (Grad-CAM) — {cname}", fontsize=14, fontweight='bold', y=0.98)
         plt.tight_layout()
-        plt.savefig(f"review_iii_assets/gradcam/{cname_clean}_composite.png")
+        plt.savefig(f"benchmark_assets/gradcam/{cname_clean}_composite.png")
         plt.savefig(f"{out_dir_kvasir}/{cname_clean}_composite.png")
         plt.close()
         
@@ -754,7 +754,7 @@ def step_5_single_image_prediction_and_mc_dropout():
             "fusion_diagnostics": fusion_diag
         }
         
-        out_json = f"review_iii_assets/single_image/{cname_clean}_prediction.json"
+        out_json = f"benchmark_assets/single_image/{cname_clean}_prediction.json"
         with open(out_json, "w") as f:
             json.dump(res_dict, f, indent=2)
             
@@ -774,13 +774,13 @@ def step_5_single_image_prediction_and_mc_dropout():
         plt.xlim(0, 108)
         plt.grid(axis='x', linestyle='--', alpha=0.5)
         plt.tight_layout()
-        plt.savefig(f"review_iii_assets/single_image/{cname_clean}_prob_dist.png")
+        plt.savefig(f"benchmark_assets/single_image/{cname_clean}_prob_dist.png")
         plt.close()
         
         single_image_results.append(res_dict)
         print(f"[+] Predicted {cname}: Pred='{pred_cname}' (Conf: {conf*100:.2f}%, Entropy: {unc_res.predictive_entropy:.4f}, VarRatio: {unc_res.variation_ratio:.4f})")
             
-    with open("review_iii_assets/single_image/all_single_image_summary.json", "w") as f:
+    with open("benchmark_assets/single_image/all_single_image_summary.json", "w") as f:
         json.dump(single_image_results, f, indent=2)
 
 
@@ -870,7 +870,7 @@ def step_6_uncertainty_analysis_test_subset():
     
     plt.suptitle('Uncertainty Quantification (MC Dropout Analysis)', fontsize=14, fontweight='bold')
     plt.tight_layout()
-    plt.savefig("review_iii_assets/uncertainty/uncertainty_distributions.png")
+    plt.savefig("benchmark_assets/uncertainty/uncertainty_distributions.png")
     plt.close()
     
     # Save uncertainty metrics report
@@ -893,7 +893,7 @@ def step_6_uncertainty_analysis_test_subset():
             "mean_variation_ratio": float(np.mean(variation_ratios[~correctness])) if np.sum(~correctness) > 0 else None
         }
     }
-    with open("review_iii_assets/uncertainty/uncertainty_summary.json", "w") as f:
+    with open("benchmark_assets/uncertainty/uncertainty_summary.json", "w") as f:
         json.dump(unc_report, f, indent=2)
     print("[+] Uncertainty analysis plots and summary saved!")
 
@@ -937,7 +937,7 @@ def step_7_faithfulness_evaluation():
         max_images=50
     )
     
-    out_dir = "review_iii_assets/faithfulness"
+    out_dir = "benchmark_assets/faithfulness"
     evaluator.save_report(results, os.path.join(out_dir, "faithfulness_report.json"))
     evaluator.plot_curves(results, out_dir, prefix="faithfulness")
     
@@ -983,7 +983,7 @@ def main():
     step_7_faithfulness_evaluation()
     
     print("\n" + "="*70)
-    print("ALL REVIEW III EVIDENCE GENERATION COMPLETED SUCCESSFULLY!")
+    print("ALL BENCHMARK EVIDENCE GENERATION COMPLETED SUCCESSFULLY!")
     print("NO MODEL TRAINING WAS STARTED.")
     print("="*70)
 

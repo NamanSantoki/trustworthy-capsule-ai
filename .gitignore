@@ -111,4 +111,5 @@ outputs_*/
 runs/
 wandb/
 mlruns/
+benchmark_assets/
 review_iii_assets/
