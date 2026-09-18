@@ -1,0 +1,24 @@
+model:
+  variant: hybrid_class_aware   # Proposed Class-Aware Adaptive Fusion
+  name: efficientnet_v2_s
+  pretrained: true
+  num_classes: 8
+  img_size: 224
+  dropout_rate: 0.2
+  fusion_hidden_dim: 512
+  freeze_backbone_epochs: 5
+
+  # ── AdaptiveCrossAttentionFusion settings ─────────────────────────────────
+  fusion_d_model: 256         # shared projection space (must be divisible by fusion_num_heads)
+  fusion_num_heads: 8         # attention heads in cross-attention (256 / 8 = 32 head-dim)
+  fusion_dropout: 0.0         # attention-weight dropout (separate from dropout_rate)
+
+  # ── ClassAwareAdaptiveFusion settings ─────────────────────────────────────
+  class_aware_prototype_temperature: 0.1   # Softmax temperature τ (lower = sharper; higher like 1.0 = softer weights)
+  class_aware_prototype_normalize: true    # L2-normalize prototypes before cosine similarity
+
+  # ── Uncertainty estimation settings ───────────────────────────────────────
+  mc_samples: 20              # Monte Carlo Dropout passes (0 = deterministic)
+
+  # ── Calibration settings ──────────────────────────────────────────────────
+  calibration_n_bins: 10      # Number of bins for ECE and reliability diagrams

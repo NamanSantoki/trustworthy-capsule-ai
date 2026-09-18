@@ -1,0 +1,7 @@
+method: grad_cam
+target_layer: null  # Auto-selects final CNN feature block if null
+colormap: cv2.COLORMAP_JET
+alpha: 0.5
+outputs_dir: outputs/explainability
+save_overlay: true
+save_side_by_side: true

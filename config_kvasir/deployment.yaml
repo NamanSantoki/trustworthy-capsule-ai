@@ -1,0 +1,4 @@
+deployment:
+  host: 0.0.0.0
+  port: 8000
+  model_checkpoint: outputs_kvasir/checkpoints/best_f1.pth

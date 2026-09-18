@@ -1,0 +1,6 @@
+analysis:
+  dataset_dir: Dataset
+  outputs_dir: outputs_kvasir
+  sample_grid_size: 4
+  fig_format: png
+  bin_count: 50

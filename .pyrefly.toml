@@ -1,0 +1,6 @@
+python_interpreter = ".venv/Scripts/python.exe"
+
+[project]
+root = "."
+include = ["src", "tests", "train.py", "classify_spot.py", "explain.py"]
+exclude = [".venv"]

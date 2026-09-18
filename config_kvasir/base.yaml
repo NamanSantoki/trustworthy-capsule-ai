@@ -1,0 +1,16 @@
+project_name: Trustworthy-Capsule-AI-Kvasir
+seed: 42
+device: cuda # Will fallback to cpu if not available
+
+paths:
+  dataset_dir: Dataset
+  outputs_dir: outputs_kvasir
+  logs_dir: outputs_kvasir/logs
+  plots_dir: outputs_kvasir/plots
+  reports_dir: outputs_kvasir/reports
+  checkpoints_dir: outputs_kvasir/checkpoints
+
+# Normalization parameters computed from 8-class Kvasir train split
+data:
+  mean: [0.57362, 0.36142, 0.18508]
+  std: [0.20614, 0.15146, 0.10351]

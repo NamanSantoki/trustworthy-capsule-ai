@@ -1,6 +1,14 @@
 model:
+  variant: efficientnet_only
   name: efficientnet_v2_s
   pretrained: true
   num_classes: 4
   img_size: 224
   dropout_rate: 0.2
+  fusion_hidden_dim: 512
+  freeze_backbone_epochs: 5
+  fusion_d_model: 256
+  fusion_num_heads: 8
+  fusion_dropout: 0.0
+  class_aware_prototype_temperature: 0.1
+  class_aware_prototype_normalize: true

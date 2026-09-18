@@ -1,0 +1,28 @@
+training:
+  epochs: 20
+  batch_size: 32
+  num_workers: 4
+  img_size: 224
+  learning_rate: 0.0005         # Head / fusion learning rate
+  backbone_lr: 0.00005          # Backbone fine-tuning learning rate (prevents ViT collapse)
+  weight_decay: 0.0001
+  mixed_precision: true
+  early_stopping_patience: 5
+  checkpoint_metric: val_f1     # val_loss | val_f1
+  tensorboard: true
+  label_smoothing: 0.1          # 0.0 disables smoothing
+  scheduler: cosine             # cosine | plateau
+  resume_training: false
+  resume_checkpoint: outputs_kvasir/checkpoints/last_epoch.pth
+
+# Configurable data augmentation settings
+data_pipeline:
+  seed: 42
+  augmentations:
+    horizontal_flip: true
+    vertical_flip: true
+    rotation_degrees: 15
+    brightness: 0.1
+    contrast: 0.1
+    saturation: 0.1
+    hue: 0.05

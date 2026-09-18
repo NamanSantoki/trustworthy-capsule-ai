@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyo
+*.pyd
 
 # C extensions
 *.so
@@ -24,9 +26,9 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
 # PyInstaller
-#  Usually these written by a python script before a module
 *.manifest
 *.spec
 
@@ -34,43 +36,79 @@ share/python-wheels/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+# Unit test / coverage reports / Linters
 htmlcov/
 .tox/
 .nosenv/
 .pytest_cache/
-.abspath
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.run/
 .coverage
 .coverage.*
 .cache
 nosetests.xml
 coverage.xml
 *.cover
+
+# Logs & Temporary files
 *.log
-.hypothesis/
-.run/
+logs/
+tmp/
+temp/
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
 
-# Environments
+# Virtual environments & secrets
 .env
-.venv
-env/
+.env.*
+.venv/
 venv/
+env/
 ENV/
 env.bak/
 venv.bak/
 
-# IDE files
+# IDE & Editor files
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
-# Project dynamic outputs (we keep the outputs directory structure, but ignore files inside)
-outputs/**/*
-!outputs/.gitkeep
+# Operating System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Raw local dataset assets
+# Machine Learning Datasets
 Dataset/
+Dataset_*/
+Dataset_Kvasir/
+data/
+datasets/
+
+# Model Checkpoints & Weights
+*.pth
+*.pt
+*.ckpt
+*.bin
+*.onnx
+*.safetensors
+checkpoints/
+**/checkpoints/
+
+# Training & Experiment Outputs
+outputs/
+outputs_*/
+runs/
+wandb/
+mlruns/
+review_iii_assets/
