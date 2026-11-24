@@ -325,7 +325,7 @@ Trustworthy-Capsule-AI/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/Neelay2005/trustworthy-capsule-ai.git
+   git clone https://github.com/NamanSantoki/trustworthy-capsule-ai.git
    cd trustworthy-capsule-ai
    ```
 
@@ -487,8 +487,8 @@ If this project or architecture is used in academic or research work, please cit
 ```bibtex
 @misc{trustworthy_capsule_ai,
   title={Trustworthy-Capsule-AI: Hybrid CNN-ViT Framework for 8-Class Capsule Endoscopy Analysis},
-  author={Neelay Singh and Contributors},
+  author={Naman Santoki and Contributors},
   year={2026},
-  howpublished={\url{https://github.com/Neelay2005/trustworthy-capsule-ai}}
+  howpublished={\url{https://github.com/NamanSantoki/trustworthy-capsule-ai}}
 }
 ```
